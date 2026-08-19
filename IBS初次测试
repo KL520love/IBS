@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IBS网络交流平台 - 巴蜀中学教育集团学生自建</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js">
+    </script>
+    <script src="https://unpkg.com/element-plus">
+    </script>
+    <style>
+        :root {
+            --ibs-primary: #4A90D9;
+            --ibs-primary-light: #6BA5E0;
+            --ibs-bg: #F0F4F8;
+            --ibs-card-bg: #FFFFFF;
+            --ibs-text: #2C3E50;
+            --ibs-text-secondary: #7F8C9B;
+            --ibs-border: #E8ECF1;
+            --ibs-like: #E74C3C;
+            --ibs-star: #F39C12;
+            --ibs-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --ibs-radius: 12px;
+            --ibs-nav-width: 220px;
+            --ibs-bottom-nav-height: 60px;
+            --ibs-safe-bottom: env(safe-area-inset-bottom, 0px);
+            --ibs-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+            background-color: var(--ibs-bg);
+            color: var(--ibs-text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        #app {
+            min-height: 100vh;
+        }
+
+        /* ========== 侧边导航（桌面端） ========== */
+        .desktop-sidebar {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--ibs-nav-width);
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border-right: 1px solid var(--ibs-border);
+            z-index: 100;
+            padding: 24px 0;
+            flex-direction: column;
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .sidebar-logo {
+            text-align: center;
+            padding: 0 16px 20px;
+            border-bottom: 1px solid var(--ibs-border);
+            margin-bottom: 16px;
+        }
+
+        .sidebar-logo .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--ibs-primary), #6BB5E0);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #fff;
+            margin: 0 auto 8px;
+            box-shadow: 0 4px 12px rgba(74, 144, 217, 0.3);
+        }
+
+        .sidebar-logo .logo-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ibs-text);
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-logo .logo-sub {
+            font-size: 11px;
+            color: var(--ibs-text-secondary);
+            margin-top: 2px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 0 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--ibs-transition);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ibs-text-secondary);
+            text-decoration: none;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .sidebar-nav-item:hover {
+            background: #E8F0FB;
+            color: var(--ibs-primary);
+            transform: translateX(4px);
+        }
+
+        .sidebar-nav-item.active {
+            background: linear-gradient(135deg, #E8F0FB, #D6E8F8);
+            color: var(--ibs-primary);
+            font-weight: 600;
+        }
+
+        .sidebar-nav-item .nav-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar-footer {
+            padding: 12px 16px;
+            border-top: 1px solid var(--ibs-border);
+            font-size: 11px;
+            color: var(--ibs-text-secondary);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* ========== 底部导航（移动端） ========== */
+        .mobile-bottom-nav {
+            display: flex;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: calc(var(--ibs-bottom-nav-height) + var(--ibs-safe-bottom));
+            padding-bottom: var(--ibs-safe-bottom);
+            background: #ffffff;
+            border-top: 1px solid var(--ibs-border);
+            z-index: 100;
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.06);
+            align-items: stretch;
+        }
+
+        .mobile-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: var(--ibs-transition);
+            font-size: 10px;
+            color: var(--ibs-text-secondary);
+            text-decoration: none;
+            border: none;
+            background: transparent;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            padding: 4px 0;
+        }
+
+        .mobile-nav-item .nav-icon {
+            font-size: 22px;
+            line-height: 1;
+        }
+
+        .mobile-nav-item.active {
+            color: var(--ibs-primary);
+            font-weight: 600;
+        }
+
+        .mobile-nav-item.active .nav-icon {
+            transform: scale(1.1);
+        }
+
+        .mobile-nav-item:active {
+            transform: scale(0.92);
+        }
+
+        /* ========== 主内容区域 ========== */
+        .main-content {
+            min-height: 100vh;
+            transition: var(--ibs-transition);
+            padding-bottom: calc(var(--ibs-bottom-nav-height) + var(--ibs-safe-bottom) + 20px);
+        }
+
+        @media (min-width: 769px) {
+            .desktop-sidebar {
+                display: flex;
+            }
+            .mobile-bottom-nav {
+                display: none;
+            }
+            .main-content {
+                margin-left: var(--ibs-nav-width);
+                padding-bottom: 0;
+                min-height: 100vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .desktop-sidebar {
+                display: none;
+            }
+            .mobile-bottom-nav {
+                display: flex;
+            }
+            .main-content {
+                margin-left: 0;
+                padding-bottom: calc(var(--ibs-bottom-nav-height) + var(--ibs-safe-bottom) + 16px);
+            }
+        }
+
+        /* ========== 页面容器 ========== */
+        .page-container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 16px;
+            animation: fadeInUp 0.35s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== 首页信息流 ========== */
+        .feed-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .feed-header .page-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--ibs-text);
+            letter-spacing: 0.3px;
+        }
+
+        .feed-header .page-subtitle {
+            font-size: 13px;
+            color: var(--ibs-text-secondary);
+            margin-top: 2px;
+        }
+
+        .search-bar {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .post-card {
+            background: var(--ibs-card-bg);
+            border-radius: var(--ibs-radius);
+            box-shadow: var(--ibs-shadow);
+            padding: 16px;
+            margin-bottom: 14px;
+            transition: var(--ibs-transition);
+            border: 1px solid var(--ibs-border);
+        }
+
+        .post-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .post-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #A8D5BA, #7BC8A4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-avatar.avatar-blue {
+            background: linear-gradient(135deg, #A8C8E8, #6BA5E0);
+        }
+        .post-avatar.avatar-pink {
+            background: linear-gradient(135deg, #F0C4D8, #E88BB5);
+        }
+        .post-avatar.avatar-orange {
+            background: linear-gradient(135deg, #F8D9A8, #E8A75C);
+        }
+        .post-avatar.avatar-purple {
+            background: linear-gradient(135deg, #D4C4F0, #A88BE0);
+        }
+        .post-avatar.avatar-teal {
+            background: linear-gradient(135deg, #A8E0D5, #5CC8B0);
+        }
+
+        .post-user-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .post-user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ibs-text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .post-campus-tag {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            background: #E8F0FB;
+            color: var(--ibs-primary);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .post-time {
+            font-size: 11px;
+            color: var(--ibs-text-secondary);
+            margin-top: 2px;
+        }
+
+        .post-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--ibs-text);
+            margin-bottom: 10px;
+            word-break: break-word;
+        }
+
+        .post-image-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            letter-spacing: 1px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .post-image-placeholder.img-1 {
+            background: linear-gradient(135deg, #6BA5E0, #A8C8E8);
+        }
+        .post-image-placeholder.img-2 {
+            background: linear-gradient(135deg, #E88BB5, #F0C4D8);
+        }
+        .post-image-placeholder.img-3 {
+            background: linear-gradient(135deg, #7BC8A4, #A8D5BA);
+        }
+        .post-image-placeholder.img-4 {
+            background: linear-gradient(135deg, #E8A75C, #F8D9A8);
+        }
+        .post-image-placeholder.img-5 {
+            background: linear-gradient(135deg, #A88BE0, #D4C4F0);
+        }
+        .post-image-placeholder.img-6 {
+            background: linear-gradient(135deg, #5CC8B0, #A8E0D5);
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            padding-top: 8px;
+            border-top: 1px solid #F0F2F5;
+        }
+
+        .post-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            color: var(--ibs-text-secondary);
+            cursor: pointer;
+            transition: var(--ibs-transition);
+            border: none;
+            background: transparent;
+            padding: 4px 8px;
+            border-radius: 6px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .post-action-btn:hover {
+            background: #F5F7FA;
+        }
+
+        .post-action-btn.liked {
+            color: var(--ibs-like);
+            font-weight: 600;
+        }
+
+        .post-action-btn.starred {
+            color: var(--ibs-star);
+            font-weight: 600;
+        }
+
+        .post-action-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* ========== 加载更多 ========== */
+        .load-more-section {
+            text-align: center;
+            padding: 16px 0;
+            color: var(--ibs-text-secondary);
+            font-size: 13px;
+        }
+
+        .load-more-section .loading-dots {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .loading-dots .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--ibs-primary);
+            animation: dotBounce 1.2s infinite;
+        }
+
+        .loading-dots .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .loading-dots .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes dotBounce {
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+            30% {
+                transform: translateY(-6px);
+                opacity: 1;
+            }
+        }
+
+        /* ========== 登录注册 ========== */
+        .auth-container {
+            max-width: 420px;
+            margin: 40px auto;
+            padding: 24px;
+            background: var(--ibs-card-bg);
+            border-radius: 16px;
+            box-shadow: var(--ibs-shadow);
+            border: 1px solid var(--ibs-border);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .auth-header .auth-logo {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--ibs-primary), #6BB5E0);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #fff;
+            margin: 0 auto 12px;
+            box-shadow: 0 4px 16px rgba(74, 144, 217, 0.3);
+        }
+
+        .auth-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--ibs-text);
+        }
+
+        .auth-header p {
+            font-size: 13px;
+            color: var(--ibs-text-secondary);
+            margin-top: 4px;
+        }
+
+        /* ========== 个人主页 ========== */
+        .profile-header {
+            background: var(--ibs-card-bg);
+            border-radius: var(--ibs-radius);
+            box-shadow: var(--ibs-shadow);
+            padding: 20px 16px;
+            margin-bottom: 14px;
+            text-align: center;
+            border: 1px solid var(--ibs-border);
+        }
+
+        .profile-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #A8D5BA, #7BC8A4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 auto 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .profile-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ibs-text);
+        }
+
+        .profile-campus {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: #E8F0FB;
+            color: var(--ibs-primary);
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #F0F2F5;
+        }
+
+        .profile-stat {
+            text-align: center;
+        }
+
+        .profile-stat .stat-num {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ibs-text);
+        }
+
+        .profile-stat .stat-label {
+            font-size: 11px;
+            color: var(--ibs-text-secondary);
+            margin-top: 2px;
+        }
+
+        /* ========== 发帖页面 ========== */
+        .post-editor {
+            background: var(--ibs-card-bg);
+            border-radius: var(--ibs-radius);
+            box-shadow: var(--ibs-shadow);
+            padding: 20px 16px;
+            border: 1px solid var(--ibs-border);
+        }
+
+        .post-editor .editor-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ibs-text);
+            margin-bottom: 16px;
+        }
+
+        /* ========== 平台规则页面 ========== */
+        .rules-container {
+            background: var(--ibs-card-bg);
+            border-radius: var(--ibs-radius);
+            box-shadow: var(--ibs-shadow);
+            padding: 20px 18px;
+            border: 1px solid var(--ibs-border);
+        }
+
+        .rules-container h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ibs-text);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #E8F0FB;
+        }
+
+        .rules-container h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--ibs-text);
+            margin-top: 16px;
+            margin-bottom: 6px;
+        }
+
+        .rules-container p {
+            font-size: 13px;
+            line-height: 1.7;
+            color: #4A5568;
+            margin-bottom: 8px;
+        }
+
+        .rules-container ul {
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        .rules-container li {
+            font-size: 13px;
+            line-height: 1.7;
+            color: #4A5568;
+            margin-bottom: 4px;
+        }
+
+        .rules-highlight {
+            background: #FFF9E6;
+            border-left: 4px solid var(--ibs-star);
+            padding: 12px 14px;
+            border-radius: 6px;
+            margin: 12px 0;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #5C4A1E;
+        }
+
+        /* ========== Element Plus 样式覆盖 ========== */
+        .el-button--primary {
+            --el-button-bg-color: var(--ibs-primary);
+            --el-button-border-color: var(--ibs-primary);
+            --el-button-hover-bg-color: var(--ibs-primary-light);
+            --el-button-hover-border-color: var(--ibs-primary-light);
+            --el-button-active-bg-color: #3A7BC4;
+            --el-button-active-border-color: #3A7BC4;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .el-input__wrapper,
+        .el-textarea__inner,
+        .el-select__wrapper {
+            border-radius: 8px;
+        }
+
+        .el-input__wrapper.is-focus,
+        .el-textarea__inner:focus,
+        .el-select__wrapper.is-focused {
+            box-shadow: 0 0 0 1px var(--ibs-primary) inset;
+        }
+
+        .el-tabs__item.is-active {
+            color: var(--ibs-primary);
+        }
+        .el-tabs__active-bar {
+            background-color: var(--ibs-primary);
+        }
+
+        .el-upload--picture-card {
+            border-radius: 8px;
+            border: 2px dashed #D0D8E0;
+            transition: var(--ibs-transition);
+        }
+        .el-upload--picture-card:hover {
+            border-color: var(--ibs-primary);
+            background: #F0F6FD;
+        }
+
+        .el-tag {
+            border-radius: 6px;
+        }
+
+        .el-message {
+            border-radius: 8px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- ========== 桌面端侧边导航 ========== -->
+        <nav class="desktop-sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">📚</div>
+                <div class="logo-title">IBS网络交流平台</div>
+                <div class="logo-sub">巴蜀中学教育集团 · 学生自建</div>
+            </div>
+            <div class="sidebar-nav">
+                <button class="sidebar-nav-item" :class="{ active: currentPage === 'home' }" @click="navigate('home')">
+                    <span class="nav-icon">🏠</span> 首页信息流
+                </button>
+                <button class="sidebar-nav-item" :class="{ active: currentPage === 'post' }" @click="navigate('post')">
+                    <span class="nav-icon">➕</span> 发布帖子
+                </button>
+                <button class="sidebar-nav-item" :class="{ active: currentPage === 'profile' }" @click="navigate('profile')">
+                    <span class="nav-icon">👤</span> 个人中心
+                </button>
+                <button class="sidebar-nav-item" :class="{ active: currentPage === 'rules' }" @click="navigate('rules')">
+                    <span class="nav-icon">📋</span> 平台规则
+                </button>
+                <button class="sidebar-nav-item" :class="{ active: currentPage === 'login' }" @click="navigate('login')">
+                    <span class="nav-icon">🔐</span> 登录注册
+                </button>
+            </div>
+            <div class="sidebar-footer">
+                非官方 · 无授权 · 无隶属<br>仅作原型演示
+            </div>
+        </nav>
+
+        <!-- ========== 移动端底部导航 ========== -->
+        <nav class="mobile-bottom-nav">
+            <button class="mobile-nav-item" :class="{ active: currentPage === 'home' }" @click="navigate('home')">
+                <span class="nav-icon">🏠</span> 首页
+            </button>
+            <button class="mobile-nav-item" :class="{ active: currentPage === 'post' }" @click="navigate('post')">
+                <span class="nav-icon">➕</span> 发布
+            </button>
+            <button class="mobile-nav-item" :class="{ active: currentPage === 'profile' }" @click="navigate('profile')">
+                <span class="nav-icon">👤</span> 个人
+            </button>
+            <button class="mobile-nav-item" :class="{ active: currentPage === 'rules' }" @click="navigate('rules')">
+                <span class="nav-icon">📋</span> 规则
+            </button>
+        </nav>
+
+        <!-- ========== 主内容区域 ========== -->
+        <main class="main-content">
+            <!-- 首页信息流 -->
+            <div class="page-container" v-if="currentPage === 'home'">
+                <div class="feed-header">
+                    <div>
+                        <div class="page-title">📱 校园信息流</div>
+                        <div class="page-subtitle">发现巴蜀各校区的精彩瞬间</div>
+                    </div>
+                    <div class="search-bar">
+                        <el-input v-model="searchKeyword" placeholder="搜索帖子、校区..." size="large" clearable @keyup.enter="filterPosts">
+                            <template #prefix>🔍</template>
+                        </el-input>
+                    </div>
+                </div>
+
+                <!-- 帖子卡片列表 -->
+                <div v-for="post in filteredPosts" :key="post.id" class="post-card">
+                    <div class="post-card-header">
+                        <div class="post-avatar" :class="post.avatarClass">{{ post.avatarText }}</div>
+                        <div class="post-user-info">
+                            <div class="post-user-name">
+                                {{ post.nickname }}
+                                <span class="post-campus-tag">{{ post.campus }}</span>
+                            </div>
+                            <div class="post-time">{{ post.grade }} · {{ post.time }}</div>
+                        </div>
+                    </div>
+                    <div class="post-text">{{ post.content }}</div>
+                    <div v-if="post.hasImage" class="post-image-placeholder" :class="post.imageClass">
+                        📷 {{ post.imageLabel }}
+                    </div>
+                    <div class="post-actions">
+                        <button class="post-action-btn" :class="{ liked: post.isLiked }" @click="toggleLike(post)">
+                            {{ post.isLiked ? '❤️' : '🤍' }} {{ post.likes }}
+                        </button>
+                        <button class="post-action-btn" :class="{ starred: post.isStarred }" @click="toggleStar(post)">
+                            {{ post.isStarred ? '⭐' : '☆' }} {{ post.stars }}
+                        </button>
+                        <button class="post-action-btn" @click="showCommentTip(post)">
+                            💬 评论
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 加载更多 -->
+                <div class="load-more-section" ref="loadMoreRef">
+                    <div v-if="isLoadingMore" class="loading-dots">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span style="margin-left:8px;">加载中...</span>
+                    </div>
+                    <div v-else-if="!hasMorePosts" style="color:#B0BEC5;">
+                        —— 已经到底啦 ——
+                    </div>
+                    <div v-else style="color:#B0BEC5;">
+                        下拉加载更多
+                    </div>
+                </div>
+            </div>
+
+            <!-- 登录注册页面 -->
+            <div class="page-container" v-if="currentPage === 'login'">
+                <div class="auth-container">
+                    <div class="auth-header">
+                        <div class="auth-logo">📚</div>
+                        <h2>IBS网络交流平台</h2>
+                        <p>巴蜀中学教育集团 · 学生自建非官方社交原型</p>
+                    </div>
+                    <el-tabs v-model="authTab" stretch>
+                        <el-tab-pane label="登录" name="login">
+                            <el-form label-position="top" size="large" @submit.prevent>
+                                <el-form-item label="昵称 / 姓名">
+                                    <el-input v-model="loginForm.name" placeholder="输入你的昵称" prefix-icon="👤" />
+                                </el-form-item>
+                                <el-form-item label="密码（模拟）">
+                                    <el-input v-model="loginForm.password" type="password" placeholder="输入密码（不会保存）" prefix-icon="🔒" show-password />
+                                </el-form-item>
+                                <el-button type="primary" size="large" style="width:100%;" @click="handleLogin">
+                                    登录（模拟）
+                                </el-button>
+                            </el-form>
+                        </el-tab-pane>
+                        <el-tab-pane label="注册" name="register">
+                            <el-form label-position="top" size="large" @submit.prevent>
+                                <el-form-item label="校区">
+                                    <el-select v-model="registerForm.campus" placeholder="选择校区" style="width:100%;">
+                                        <el-option v-for="c in campuses" :key="c" :label="c" :value="c" />
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="年级">
+                                    <el-select v-model="registerForm.grade" placeholder="选择年级" style="width:100%;">
+                                        <el-option v-for="g in grades" :key="g" :label="g" :value="g" />
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="班级">
+                                    <el-input-number v-model="registerForm.classNum" :min="1" :max="30" style="width:100%;" placeholder="班级" />
+                                </el-form-item>
+                                <el-form-item label="姓名 / 昵称">
+                                    <el-input v-model="registerForm.name" placeholder="输入你的姓名或昵称" prefix-icon="👤" />
+                                </el-form-item>
+                                <el-button type="primary" size="large" style="width:100%;" @click="handleRegister">
+                                    注册（模拟）
+                                </el-button>
+                            </el-form>
+                        </el-tab-pane>
+                    </el-tabs>
+                    <div style="margin-top:16px;text-align:center;font-size:12px;color:#B0BEC5;">
+                        ⚠️ 所有登录注册均为模拟，不会真实保存任何数据
+                    </div>
+                </div>
+            </div>
+
+            <!-- 个人主页 -->
+            <div class="page-container" v-if="currentPage === 'profile'">
+                <div class="profile-header">
+                    <div class="profile-avatar-large">{{ profileInitial }}</div>
+                    <div class="profile-name">{{ profileName }}</div>
+                    <div class="profile-campus">📍 {{ profileCampus }}</div>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <div class="stat-num">{{ myPosts.length }}</div>
+                            <div class="stat-label">发布帖子</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="stat-num">{{ starredPosts.length }}</div>
+                            <div class="stat-label">收藏</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="stat-num">{{ totalLikes }}</div>
+                            <div class="stat-label">获赞</div>
+                        </div>
+                    </div>
+                </div>
+
+                <el-tabs v-model="profileTab" stretch>
+                    <el-tab-pane label="📝 我的帖子" name="posts">
+                        <div v-if="myPosts.length === 0" style="text-align:center;padding:40px 0;color:#B0BEC5;">
+                            <div style="font-size:40px;margin-bottom:12px;">📭</div>
+                            还没有发布过帖子，去发布第一条吧！
+                        </div>
+                        <div v-for="post in myPosts" :key="post.id" class="post-card">
+                            <div class="post-card-header">
+                                <div class="post-avatar" :class="post.avatarClass">{{ post.avatarText }}</div>
+                                <div class="post-user-info">
+                                    <div class="post-user-name">
+                                        {{ post.nickname }}
+                                        <span class="post-campus-tag">{{ post.campus }}</span>
+                                    </div>
+                                    <div class="post-time">{{ post.grade }} · {{ post.time }}</div>
+                                </div>
+                            </div>
+                            <div class="post-text">{{ post.content }}</div>
+                            <div v-if="post.hasImage" class="post-image-placeholder" :class="post.imageClass">
+                                📷 {{ post.imageLabel }}
+                            </div>
+                            <div class="post-actions">
+                                <button class="post-action-btn" :class="{ liked: post.isLiked }" @click="toggleLike(post)">
+                                    {{ post.isLiked ? '❤️' : '🤍' }} {{ post.likes }}
+                                </button>
+                                <button class="post-action-btn" :class="{ starred: post.isStarred }" @click="toggleStar(post)">
+                                    {{ post.isStarred ? '⭐' : '☆' }} {{ post.stars }}
+                                </button>
+                            </div>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="⭐ 我的收藏" name="stars">
+                        <div v-if="starredPosts.length === 0" style="text-align:center;padding:40px 0;color:#B0BEC5;">
+                            <div style="font-size:40px;margin-bottom:12px;">⭐</div>
+                            还没有收藏任何帖子
+                        </div>
+                        <div v-for="post in starredPosts" :key="post.id" class="post-card">
+                            <div class="post-card-header">
+                                <div class="post-avatar" :class="post.avatarClass">{{ post.avatarText }}</div>
+                                <div class="post-user-info">
+                                    <div class="post-user-name">
+                                        {{ post.nickname }}
+                                        <span class="post-campus-tag">{{ post.campus }}</span>
+                                    </div>
+                                    <div class="post-time">{{ post.grade }} · {{ post.time }}</div>
+                                </div>
+                            </div>
+                            <div class="post-text">{{ post.content }}</div>
+                            <div v-if="post.hasImage" class="post-image-placeholder" :class="post.imageClass">
+                                📷 {{ post.imageLabel }}
+                            </div>
+                            <div class="post-actions">
+                                <button class="post-action-btn" :class="{ liked: post.isLiked }" @click="toggleLike(post)">
+                                    {{ post.isLiked ? '❤️' : '🤍' }} {{ post.likes }}
+                                </button>
+                                <button class="post-action-btn" :class="{ starred: post.isStarred }" @click="toggleStar(post)">
+                                    {{ post.isStarred ? '⭐' : '☆' }} {{ post.stars }}
+                                </button>
+                            </div>
+                        </div>
+                    </el-tab-pane>
+                </el-tabs>
+            </div>
+
+            <!-- 发帖页面 -->
+            <div class="page-container" v-if="currentPage === 'post'">
+                <div class="post-editor">
+                    <div class="editor-title">✏️ 发布新帖子</div>
+                    <el-form label-position="top" size="large" @submit.prevent>
+                        <el-form-item label="选择校区">
+                            <el-select v-model="newPost.campus" placeholder="选择校区" style="width:100%;">
+                                <el-option v-for="c in campuses" :key="c" :label="c" :value="c" />
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="帖子内容">
+                            <el-input v-model="newPost.content" type="textarea" :rows="5" maxlength="500" show-word-limit placeholder="分享你的校园生活、学习心得..." />
+                        </el-form-item>
+                        <el-form-item label="上传图片（模拟）">
+                            <el-upload v-model:file-list="uploadFileList" list-type="picture-card" :auto-upload="false" :limit="3" accept="image/*" @change="handleFileChange">
+                                <div style="text-align:center;">
+                                    <div style="font-size:24px;">📷</div>
+                                    <div style="font-size:11px;margin-top:4px;color:#8B9AA8;">选择图片</div>
+                                </div>
+                            </el-upload>
+                            <div style="font-size:11px;color:#B0BEC5;margin-top:4px;">
+                                ⚠️ 图片仅本地预览，不会真实上传
+                            </div>
+                        </el-form-item>
+                        <el-button type="primary" size="large" style="width:100%;" @click="handlePublish">
+                            🚀 发布帖子（模拟）
+                        </el-button>
+                    </el-form>
+                </div>
+            </div>
+
+            <!-- 平台规则页面 -->
+            <div class="page-container" v-if="currentPage === 'rules'">
+                <div class="rules-container">
+                    <h2>📋 平台规则与免责声明</h2>
+
+                    <div class="rules-highlight">
+                        <strong>⚠️ 重要声明：</strong>IBS网络交流平台为<strong>巴蜀中学教育集团学生自建的非官方社交原型项目</strong>，与巴蜀中学及其各校区<strong>无任何授权关系、无隶属关系、无商业合作关系</strong>。本项目仅用于产品原型演示和学习交流目的。
+                    </div>
+
+                    <h3>一、平台性质</h3>
+                    <p>本平台为前端原型演示项目，所有功能（包括但不限于登录、注册、发帖、点赞、收藏等）均为<strong>模拟假交互</strong>，不会真实保存任何用户数据，所有数据仅存在于浏览器内存中，刷新或关闭页面即会丢失。</p>
+
+                    <h3>二、免责声明</h3>
+                    <ul>
+                        <li>本平台与巴蜀中学及各校区<strong>无授权、无隶属、无商业合作</strong>，不代表任何官方立场。</li>
+                        <li>平台内所有内容均为模拟演示数据，不涉及真实用户信息。</li>
+                        <li>用户在本平台上的任何操作均不会产生真实的数据存储或传输。</li>
+                        <li>本平台不收集、不存储、不传输任何个人隐私信息。</li>
+                        <li>巴蜀中学校名、校区名称等仅用于标识模拟场景，不代表官方认可。</li>
+                    </ul>
+
+                    <h3>三、用户行为规范</h3>
+                    <ul>
+                        <li>遵守国家法律法规，不得发布违法违规内容。</li>
+                        <li>尊重他人，文明交流，不得进行人身攻击、辱骂等行为。</li>
+                        <li>不得发布虚假信息、谣言或不实内容。</li>
+                        <li>不得发布涉及色情、暴力、赌博等不良内容。</li>
+                        <li>不得冒充他人身份，不得盗用他人名义发布内容。</li>
+                        <li>维护良好的校园网络环境，传播正能量。</li>
+                    </ul>
+
+                    <h3>四、内容管理规则</h3>
+                    <ul>
+                        <li>平台内容由用户自行生成（模拟），仅代表用户个人观点。</li>
+                        <li>禁止发布商业广告、推广信息（模拟规则）。</li>
+                        <li>禁止发布侵犯他人知识产权的内容。</li>
+                        <li>平台保留对违规内容进行处理的模拟权利。</li>
+                    </ul>
+
+                    <h3>五、知识产权声明</h3>
+                    <p>本平台为开源学习项目，前端代码可自由学习参考。平台名称"巴蜀中学"及相关校区名称的商标权、名称权归巴蜀中学所有。本平台不主张任何与巴蜀中学相关的知识产权权利。</p>
+
+                    <h3>六、数据说明</h3>
+                    <ul>
+                        <li>所有用户数据、帖子数据均为前端模拟数据。</li>
+                        <li>不涉及后端服务、数据库或任何数据持久化操作。</li>
+                        <li>刷新页面后所有操作状态（点赞、收藏、发帖等）将重置。</li>
+                        <li>本项目可部署在GitHub Pages等静态托管服务上，仅包含前端文件。</li>
+                    </ul>
+
+                    <div style="margin-top:16px;padding:12px;background:#F0F6FD;border-radius:8px;font-size:12px;color:#5A7A9A;text-align:center;">
+                        巴蜀中学教育集团 · 学生自建非官方社交原型 · 无授权 · 无隶属 · 无商业合作
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const { createApp, ref, reactive, computed, onMounted, onUnmounted, watch, nextTick } = Vue;
+
+        const app = createApp({
+            setup() {
+                // ========== 路由状态 ==========
+                const currentPage = ref('home');
+                const searchKeyword = ref('');
+
+                // ========== 校区和年级数据 ==========
+                const campuses = [
+                    '巴蜀中学本部',
+                    '巴蜀常春藤学校',
+                    '巴蜀科学城中学',
+                    '巴蜀张家花园校区',
+                    '巴蜀鲁能校区',
+                    '巴蜀两江校区'
+                ];
+                const grades = ['初一', '初二', '初三', '高一', '高二', '高三'];
+
+                // ========== 登录/注册表单 ==========
+                const authTab = ref('login');
+                const loginForm = reactive({ name: '', password: '' });
+                const registerForm = reactive({
+                    campus: '',
+                    grade: '',
+                    classNum: 1,
+                    name: ''
+                });
+
+                // ========== 当前用户（模拟） ==========
+                const isLoggedIn = ref(false);
+                const currentUser = reactive({
+                    name: '巴蜀学子',
+                    campus: '巴蜀中学本部',
+                    grade: '高一',
+                    classNum: 1
+                });
+
+                // ========== 发帖表单 ==========
+                const newPost = reactive({
+                    campus: '',
+                    content: ''
+                });
+                const uploadFileList = ref([]);
+
+                // ========== 模拟帖子数据 ==========
+                const allPosts = reactive([
+                    {
+                        id: 1,
+                        nickname: '小巴同学',
+                        campus: '巴蜀中学本部',
+                        grade: '高一',
+                        time: '10分钟前',
+                        content: '今天在图书馆自习，效率超高！推荐大家去三楼的窗边座位，阳光刚好，氛围绝佳～',
+                        hasImage: true,
+                        imageClass: 'img-1',
+                        imageLabel: '图书馆窗边',
+                        likes: 28,
+                        stars: 12,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: 'avatar-blue',
+                        avatarText: '小'
+                    },
+                    {
+                        id: 2,
+                        nickname: '常春藤小藤',
+                        campus: '巴蜀常春藤学校',
+                        grade: '高二',
+                        time: '32分钟前',
+                        content: '常春藤的秋天太美了！银杏叶铺满小径，随手一拍都是壁纸级别的风景。🍂',
+                        hasImage: true,
+                        imageClass: 'img-2',
+                        imageLabel: '银杏小径',
+                        likes: 45,
+                        stars: 23,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: 'avatar-pink',
+                        avatarText: '藤'
+                    },
+                    {
+                        id: 3,
+                        nickname: '科学城探索者',
+                        campus: '巴蜀科学城中学',
+                        grade: '初一',
+                        time: '1小时前',
+                        content: '科学城校区的实验室太棒了！今天做了化学实验，观察到了非常漂亮的颜色变化！🔬',
+                        hasImage: true,
+                        imageClass: 'img-3',
+                        imageLabel: '化学实验',
+                        likes: 37,
+                        stars: 18,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: 'avatar-teal',
+                        avatarText: '科'
+                    },
+                    {
+                        id: 4,
+                        nickname: '张家花园的猫',
+                        campus: '巴蜀张家花园校区',
+                        grade: '初三',
+                        time: '2小时前',
+                        content: '校园里的橘猫又胖了，感觉它每天都有人投喂。好想把它抱回家！🐱',
+                        hasImage: true,
+                        imageClass: 'img-4',
+                        imageLabel: '校园橘猫',
+                        likes: 52,
+                        stars: 31,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: 'avatar-orange',
+                        avatarText: '猫'
+                    },
+                    {
+                        id: 5,
+                        nickname: '鲁能小将',
+                        campus: '巴蜀鲁能校区',
+                        grade: '高一',
+                        time: '3小时前',
+                        content: '鲁能校区的篮球场翻新了，地面弹性特别好！今天和同学们打了一场痛快的球赛。🏀',
+                        hasImage: true,
+                        imageClass: 'img-5',
+                        imageLabel: '篮球场',
+                        likes: 19,
+                        stars: 8,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: 'avatar-purple',
+                        avatarText: '鲁'
+                    },
+                    {
+                        id: 6,
+                        nickname: '两江追风少年',
+                        campus: '巴蜀两江校区',
+                        grade: '高二',
+                        time: '4小时前',
+                        content: '两江校区的夜景绝了！晚自习结束后看到江对面的灯光，学习压力瞬间消失。🌃',
+                        hasImage: true,
+                        imageClass: 'img-6',
+                        imageLabel: '两江夜景',
+                        likes: 41,
+                        stars: 27,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: 'avatar-blue',
+                        avatarText: '江'
+                    },
+                    {
+                        id: 7,
+                        nickname: '数学小王子',
+                        campus: '巴蜀中学本部',
+                        grade: '高三',
+                        time: '5小时前',
+                        content: '分享一个解解析几何的小技巧：先画图再列方程，很多复杂问题都会变得清晰。📐',
+                        hasImage: false,
+                        imageClass: '',
+                        imageLabel: '',
+                        likes: 63,
+                        stars: 44,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: 'avatar-blue',
+                        avatarText: '数'
+                    },
+                    {
+                        id: 8,
+                        nickname: '英语角达人',
+                        campus: '巴蜀常春藤学校',
+                        grade: '初二',
+                        time: '6小时前',
+                        content: '常春藤的英语角活动太棒了！和外教老师交流了好多有趣的话题，口语进步飞快！🗣️',
+                        hasImage: false,
+                        imageClass: '',
+                        imageLabel: '',
+                        likes: 24,
+                        stars: 15,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: 'avatar-pink',
+                        avatarText: '英'
+                    },
+                    {
+                        id: 9,
+                        nickname: '科学城小研究员',
+                        campus: '巴蜀科学城中学',
+                        grade: '高一',
+                        time: '7小时前',
+                        content: '科学城校区的创客空间开放了！3D打印机、激光切割机都能用，太酷了！🖨️',
+                        hasImage: true,
+                        imageClass: 'img-3',
+                        imageLabel: '创客空间',
+                        likes: 33,
+                        stars: 21,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: 'avatar-teal',
+                        avatarText: '研'
+                    },
+                    {
+                        id: 10,
+                        nickname: '张花园文艺青年',
+                        campus: '巴蜀张家花园校区',
+                        grade: '高二',
+                        time: '8小时前',
+                        content: '张家花园的紫藤花开了，整个长廊都是紫色的，像梦境一样。强烈推荐大家来看看！💜',
+                        hasImage: true,
+                        imageClass: 'img-5',
+                        imageLabel: '紫藤花廊',
+                        likes: 58,
+                        stars: 36,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: 'avatar-purple',
+                        avatarText: '文'
+                    },
+                    {
+                        id: 11,
+                        nickname: '鲁能摄影社',
+                        campus: '巴蜀鲁能校区',
+                        grade: '初三',
+                        time: '9小时前',
+                        content: '鲁能校区的操场日落太美了！分享一张手机随手拍的照片，没有修图哦。📸',
+                        hasImage: true,
+                        imageClass: 'img-4',
+                        imageLabel: '操场日落',
+                        likes: 47,
+                        stars: 29,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: 'avatar-orange',
+                        avatarText: '影'
+                    },
+                    {
+                        id: 12,
+                        nickname: '两江音乐社',
+                        campus: '巴蜀两江校区',
+                        grade: '高一',
+                        time: '10小时前',
+                        content: '两江校区的音乐教室新到了一架三角钢琴，音色太棒了！今天社团活动弹了一下午。🎹',
+                        hasImage: true,
+                        imageClass: 'img-6',
+                        imageLabel: '三角钢琴',
+                        likes: 39,
+                        stars: 25,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: 'avatar-blue',
+                        avatarText: '音'
+                    }
+                ]);
+
+                // ========== 加载更多状态 ==========
+                const visibleCount = ref(6);
+                const isLoadingMore = ref(false);
+                const hasMorePosts = computed(() => visibleCount.value < allPosts.length);
+                const loadMoreRef = ref(null);
+                let observer = null;
+
+                // ========== 过滤后的帖子 ==========
+                const filteredPosts = computed(() => {
+                    let posts = allPosts.slice(0, visibleCount.value);
+                    if (searchKeyword.value.trim()) {
+                        const kw = searchKeyword.value.trim().toLowerCase();
+                        posts = posts.filter(p =>
+                            p.content.toLowerCase().includes(kw) ||
+                            p.campus.includes(kw) ||
+                            p.nickname.toLowerCase().includes(kw) ||
+                            p.grade.includes(kw)
+                        );
+                    }
+                    return posts;
+                });
+
+                // ========== 个人主页计算属性 ==========
+                const profileInitial = computed(() => {
+                    return currentUser.name.charAt(0) || '巴';
+                });
+                const profileName = computed(() => currentUser.name || '巴蜀学子');
+                const profileCampus = computed(() => currentUser.campus || '巴蜀中学本部');
+
+                const myPosts = computed(() => {
+                    return allPosts.filter(p =>
+                        p.campus === currentUser.campus &&
+                        p.nickname === currentUser.name
+                    );
+                });
+
+                const starredPosts = computed(() => {
+                    return allPosts.filter(p => p.isStarred);
+                });
+
+                const totalLikes = computed(() => {
+                    return myPosts.value.reduce((sum, p) => sum + p.likes, 0);
+                });
+
+                const profileTab = ref('posts');
+
+                // ========== 导航方法 ==========
+                function navigate(page) {
+                    currentPage.value = page;
+                    window.location.hash = page === 'home' ? '/' : '/' + page;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+
+                function handleHashChange() {
+                    const hash = window.location.hash.replace('#/', '').replace('#', '');
+                    const pageMap = {
+                        '': 'home',
+                        'home': 'home',
+                        'login': 'login',
+                        'profile': 'profile',
+                        'post': 'post',
+                        'rules': 'rules'
+                    };
+                    const page = pageMap[hash] || 'home';
+                    currentPage.value = page;
+                }
+
+                // ========== 点赞/收藏 ==========
+                function toggleLike(post) {
+                    post.isLiked = !post.isLiked;
+                    if (post.isLiked) {
+                        post.likes++;
+                    } else {
+                        post.likes--;
+                    }
+                }
+
+                function toggleStar(post) {
+                    post.isStarred = !post.isStarred;
+                    if (post.isStarred) {
+                        post.stars++;
+                    } else {
+                        post.stars--;
+                    }
+                }
+
+                function showCommentTip(post) {
+                    ElementPlus.ElMessage.info({
+                        message: '💬 评论功能为模拟演示，暂不支持真实评论',
+                        duration: 2000
+                    });
+                }
+
+                // ========== 登录/注册 ==========
+                function handleLogin() {
+                    if (!loginForm.name.trim()) {
+                        ElementPlus.ElMessage.warning({
+                            message: '请输入昵称或姓名',
+                            duration: 2000
+                        });
+                        return;
+                    }
+                    isLoggedIn.value = true;
+                    currentUser.name = loginForm.name.trim();
+                    ElementPlus.ElMessage.success({
+                        message: `✅ 欢迎回来，${loginForm.name.trim()}！（模拟登录，数据不会保存）`,
+                        duration: 2500
+                    });
+                    setTimeout(() => navigate('home'), 800);
+                }
+
+                function handleRegister() {
+                    if (!registerForm.name.trim()) {
+                        ElementPlus.ElMessage.warning({
+                            message: '请输入姓名或昵称',
+                            duration: 2000
+                        });
+                        return;
+                    }
+                    if (!registerForm.campus) {
+                        ElementPlus.ElMessage.warning({
+                            message: '请选择校区',
+                            duration: 2000
+                        });
+                        return;
+                    }
+                    if (!registerForm.grade) {
+                        ElementPlus.ElMessage.warning({
+                            message: '请选择年级',
+                            duration: 2000
+                        });
+                        return;
+                    }
+                    isLoggedIn.value = true;
+                    currentUser.name = registerForm.name.trim();
+                    currentUser.campus = registerForm.campus;
+                    currentUser.grade = registerForm.grade;
+                    currentUser.classNum = registerForm.classNum;
+                    ElementPlus.ElMessage.success({
+                        message: `🎉 注册成功！欢迎 ${registerForm.name.trim()} 加入IBS平台（模拟注册，数据不会保存）`,
+                        duration: 2500
+                    });
+                    setTimeout(() => navigate('home'), 800);
+                }
+
+                // ========== 发帖 ==========
+                function handleFileChange(file) {
+                    if (file && file.raw) {
+                        ElementPlus.ElMessage.info({
+                            message: '📷 图片已选择（仅本地预览，不会真实上传）',
+                            duration: 1500
+                        });
+                    }
+                }
+
+                function handlePublish() {
+                    if (!newPost.content.trim()) {
+                        ElementPlus.ElMessage.warning({
+                            message: '请输入帖子内容',
+                            duration: 2000
+                        });
+                        return;
+                    }
+                    if (!newPost.campus) {
+                        ElementPlus.ElMessage.warning({
+                            message: '请选择校区',
+                            duration: 2000
+                        });
+                        return;
+                    }
+                    const avatarClasses = ['avatar-blue', 'avatar-pink', 'avatar-orange', 'avatar-purple', 'avatar-teal'];
+                    const imageClasses = ['img-1', 'img-2', 'img-3', 'img-4', 'img-5', 'img-6'];
+                    const newId = allPosts.length + 1;
+                    const newPostItem = {
+                        id: newId,
+                        nickname: currentUser.name || '新用户',
+                        campus: newPost.campus,
+                        grade: currentUser.grade || '高一',
+                        time: '刚刚',
+                        content: newPost.content.trim(),
+                        hasImage: uploadFileList.value.length > 0,
+                        imageClass: imageClasses[Math.floor(Math.random() * imageClasses.length)],
+                        imageLabel: uploadFileList.value.length > 0 ?
+                            `已上传${uploadFileList.value.length}张图片` : '',
+                        likes: 0,
+                        stars: 0,
+                        isLiked: false,
+                        isStarred: false,
+                        avatarClass: avatarClasses[Math.floor(Math.random() * avatarClasses.length)],
+                        avatarText: (currentUser.name || '新').charAt(0)
+                    };
+                    allPosts.unshift(newPostItem);
+                    ElementPlus.ElMessage.success({
+                        message: '🚀 帖子发布成功！（模拟发布，数据不会真实保存）',
+                        duration: 2500
+                    });
+                    newPost.content = '';
+                    newPost.campus = '';
+                    uploadFileList.value = [];
+                    setTimeout(() => navigate('home'), 800);
+                }
+
+                // ========== 搜索 ==========
+                function filterPosts() {
+                    if (searchKeyword.value.trim()) {
+                        ElementPlus.ElMessage.info({
+                            message: `🔍 搜索"${searchKeyword.value.trim()}"（模拟搜索，仅过滤当前列表）`,
+                            duration: 1500
+                        });
+                    }
+                }
+
+                // ========== 无限滚动加载更多 ==========
+                function loadMore() {
+                    if (isLoadingMore.value || !hasMorePosts.value) return;
+                    isLoadingMore.value = true;
+                    setTimeout(() => {
+                        visibleCount.value += 4;
+                        isLoadingMore.value = false;
+                    }, 1200);
+                }
+
+                function setupIntersectionObserver() {
+                    if (observer) observer.disconnect();
+                    if (loadMoreRef.value && currentPage.value === 'home') {
+                        observer = new IntersectionObserver((entries) => {
+                            if (entries[0].isIntersecting) {
+                                loadMore();
+                            }
+                        }, { threshold: 0.1, rootMargin: '100px' });
+                        observer.observe(loadMoreRef.value);
+                    }
+                }
+
+                // ========== 生命周期 ==========
+                onMounted(() => {
+                    handleHashChange();
+                    window.addEventListener('hashchange', handleHashChange);
+                    nextTick(() => {
+                        setupIntersectionObserver();
+                    });
+                });
+
+                onUnmounted(() => {
+                    window.removeEventListener('hashchange', handleHashChange);
+                    if (observer) observer.disconnect();
+                });
+
+                watch(currentPage, () => {
+                    nextTick(() => {
+                        setupIntersectionObserver();
+                    });
+                });
+
+                watch(searchKeyword, () => {
+                    // 搜索时重置可见数量
+                    visibleCount.value = Math.min(allPosts.length, 6);
+                });
+
+                return {
+                    currentPage,
+                    searchKeyword,
+                    campuses,
+                    grades,
+                    authTab,
+                    loginForm,
+                    registerForm,
+                    isLoggedIn,
+                    currentUser,
+                    newPost,
+                    uploadFileList,
+                    allPosts,
+                    visibleCount,
+                    isLoadingMore,
+                    hasMorePosts,
+                    loadMoreRef,
+                    filteredPosts,
+                    profileInitial,
+                    profileName,
+                    profileCampus,
+                    myPosts,
+                    starredPosts,
+                    totalLikes,
+                    profileTab,
+                    navigate,
+                    toggleLike,
+                    toggleStar,
+                    showCommentTip,
+                    handleLogin,
+                    handleRegister,
+                    handleFileChange,
+                    handlePublish,
+                    filterPosts,
+                    loadMore
+                };
+            }
+        });
+
+        app.use(ElementPlus);
+        app.mount('#app');
+    </script>
+</body>
+</html>
