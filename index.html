@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IBS网络交流平台 - 巴蜀中学教育集团学生自建</title>
+    <title>IBS网络交流平台</title>
     <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js">
     </script>
@@ -47,7 +47,19 @@
             min-height: 100vh;
         }
 
-        /* ========== 侧边导航（桌面端） ========== */
+        .watermark-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 150;
+            background-repeat: repeat;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='220' viewBox='0 0 300 220'%3E%3Ctext x='50%25' y='30%25' font-size='16' fill='rgba(0,0,0,0.07)' font-family='sans-serif' font-weight='bold' text-anchor='middle' transform='rotate(-30 150 110)'%3E严禁外传%3C/text%3E%3Ctext x='50%25' y='52%25' font-size='16' fill='rgba(0,0,0,0.07)' font-family='sans-serif' font-weight='bold' text-anchor='middle' transform='rotate(-30 150 110)'%3EIBS内部测试阶段%3C/text%3E%3Ctext x='50%25' y='74%25' font-size='16' fill='rgba(0,0,0,0.07)' font-family='sans-serif' font-weight='bold' text-anchor='middle' transform='rotate(-30 150 110)'%3E严禁外传%3C/text%3E%3C/svg%3E");
+            background-size: 300px 220px;
+        }
+
         .desktop-sidebar {
             display: none;
             position: fixed;
@@ -153,7 +165,6 @@
             line-height: 1.5;
         }
 
-        /* ========== 底部导航（移动端） ========== */
         .mobile-bottom-nav {
             display: flex;
             position: fixed;
@@ -206,7 +217,6 @@
             transform: scale(0.92);
         }
 
-        /* ========== 主内容区域 ========== */
         .main-content {
             min-height: 100vh;
             transition: var(--ibs-transition);
@@ -240,7 +250,6 @@
             }
         }
 
-        /* ========== 页面容器 ========== */
         .page-container {
             max-width: 680px;
             margin: 0 auto;
@@ -259,7 +268,6 @@
             }
         }
 
-        /* ========== 首页信息流 ========== */
         .feed-header {
             display: flex;
             align-items: center;
@@ -455,7 +463,6 @@
             transform: scale(0.92);
         }
 
-        /* ========== 加载更多 ========== */
         .load-more-section {
             text-align: center;
             padding: 16px 0;
@@ -497,7 +504,6 @@
             }
         }
 
-        /* ========== 登录注册 ========== */
         .auth-container {
             max-width: 420px;
             margin: 40px auto;
@@ -539,7 +545,6 @@
             margin-top: 4px;
         }
 
-        /* ========== 个人主页 ========== */
         .profile-header {
             background: var(--ibs-card-bg);
             border-radius: var(--ibs-radius);
@@ -609,7 +614,6 @@
             margin-top: 2px;
         }
 
-        /* ========== 发帖页面 ========== */
         .post-editor {
             background: var(--ibs-card-bg);
             border-radius: var(--ibs-radius);
@@ -625,7 +629,6 @@
             margin-bottom: 16px;
         }
 
-        /* ========== 平台规则页面 ========== */
         .rules-container {
             background: var(--ibs-card-bg);
             border-radius: var(--ibs-radius);
@@ -681,7 +684,6 @@
             color: #5C4A1E;
         }
 
-        /* ========== Element Plus 样式覆盖 ========== */
         .el-button--primary {
             --el-button-bg-color: var(--ibs-primary);
             --el-button-border-color: var(--ibs-primary);
@@ -734,12 +736,13 @@
 </head>
 <body>
     <div id="app">
-        <!-- ========== 桌面端侧边导航 ========== -->
+        <div class="watermark-layer"></div>
+
         <nav class="desktop-sidebar">
             <div class="sidebar-logo">
                 <div class="logo-icon">📚</div>
                 <div class="logo-title">IBS网络交流平台</div>
-                <div class="logo-sub">巴蜀中学教育集团 · 学生自建</div>
+                <div class="logo-sub">校园社区 · 内部测试</div>
             </div>
             <div class="sidebar-nav">
                 <button class="sidebar-nav-item" :class="{ active: currentPage === 'home' }" @click="navigate('home')">
@@ -759,11 +762,10 @@
                 </button>
             </div>
             <div class="sidebar-footer">
-                非官方 · 无授权 · 无隶属<br>仅作原型演示
+                仅供演示 · 数据不存储
             </div>
         </nav>
 
-        <!-- ========== 移动端底部导航 ========== -->
         <nav class="mobile-bottom-nav">
             <button class="mobile-nav-item" :class="{ active: currentPage === 'home' }" @click="navigate('home')">
                 <span class="nav-icon">🏠</span> 首页
@@ -779,14 +781,12 @@
             </button>
         </nav>
 
-        <!-- ========== 主内容区域 ========== -->
         <main class="main-content">
-            <!-- 首页信息流 -->
             <div class="page-container" v-if="currentPage === 'home'">
                 <div class="feed-header">
                     <div>
                         <div class="page-title">📱 校园信息流</div>
-                        <div class="page-subtitle">发现巴蜀各校区的精彩瞬间</div>
+                        <div class="page-subtitle">发现各校区的精彩瞬间</div>
                     </div>
                     <div class="search-bar">
                         <el-input v-model="searchKeyword" placeholder="搜索帖子、校区..." size="large" clearable @keyup.enter="filterPosts">
@@ -795,7 +795,6 @@
                     </div>
                 </div>
 
-                <!-- 帖子卡片列表 -->
                 <div v-for="post in filteredPosts" :key="post.id" class="post-card">
                     <div class="post-card-header">
                         <div class="post-avatar" :class="post.avatarClass">{{ post.avatarText }}</div>
@@ -824,7 +823,6 @@
                     </div>
                 </div>
 
-                <!-- 加载更多 -->
                 <div class="load-more-section" ref="loadMoreRef">
                     <div v-if="isLoadingMore" class="loading-dots">
                         <span class="dot"></span>
@@ -841,13 +839,12 @@
                 </div>
             </div>
 
-            <!-- 登录注册页面 -->
             <div class="page-container" v-if="currentPage === 'login'">
                 <div class="auth-container">
                     <div class="auth-header">
                         <div class="auth-logo">📚</div>
                         <h2>IBS网络交流平台</h2>
-                        <p>巴蜀中学教育集团 · 学生自建非官方社交原型</p>
+                        <p>校园交流平台 · 内部测试</p>
                     </div>
                     <el-tabs v-model="authTab" stretch>
                         <el-tab-pane label="登录" name="login">
@@ -893,7 +890,6 @@
                 </div>
             </div>
 
-            <!-- 个人主页 -->
             <div class="page-container" v-if="currentPage === 'profile'">
                 <div class="profile-header">
                     <div class="profile-avatar-large">{{ profileInitial }}</div>
@@ -979,7 +975,6 @@
                 </el-tabs>
             </div>
 
-            <!-- 发帖页面 -->
             <div class="page-container" v-if="currentPage === 'post'">
                 <div class="post-editor">
                     <div class="editor-title">✏️ 发布新帖子</div>
@@ -1010,25 +1005,24 @@
                 </div>
             </div>
 
-            <!-- 平台规则页面 -->
             <div class="page-container" v-if="currentPage === 'rules'">
                 <div class="rules-container">
                     <h2>📋 平台规则与免责声明</h2>
 
                     <div class="rules-highlight">
-                        <strong>⚠️ 重要声明：</strong>IBS网络交流平台为<strong>巴蜀中学教育集团学生自建的非官方社交原型项目</strong>，与巴蜀中学及其各校区<strong>无任何授权关系、无隶属关系、无商业合作关系</strong>。本项目仅用于产品原型演示和学习交流目的。
+                        <strong>⚠️ 重要声明：</strong>本平台为校园交流平台内部测试版本，仅供功能演示和体验，所有数据均为模拟数据，不会真实保存。
                     </div>
 
                     <h3>一、平台性质</h3>
-                    <p>本平台为前端原型演示项目，所有功能（包括但不限于登录、注册、发帖、点赞、收藏等）均为<strong>模拟假交互</strong>，不会真实保存任何用户数据，所有数据仅存在于浏览器内存中，刷新或关闭页面即会丢失。</p>
+                    <p>本平台为前端原型演示项目，所有功能（包括但不限于登录、注册、发帖、点赞、收藏等）均为模拟假交互，不会真实保存任何用户数据，所有数据仅存在于浏览器内存中，刷新或关闭页面即会丢失。</p>
 
                     <h3>二、免责声明</h3>
                     <ul>
-                        <li>本平台与巴蜀中学及各校区<strong>无授权、无隶属、无商业合作</strong>，不代表任何官方立场。</li>
+                        <li>本平台仅供内部测试使用，不对外公开。</li>
                         <li>平台内所有内容均为模拟演示数据，不涉及真实用户信息。</li>
                         <li>用户在本平台上的任何操作均不会产生真实的数据存储或传输。</li>
                         <li>本平台不收集、不存储、不传输任何个人隐私信息。</li>
-                        <li>巴蜀中学校名、校区名称等仅用于标识模拟场景，不代表官方认可。</li>
+                        <li>校区名称仅用于标识模拟场景。</li>
                     </ul>
 
                     <h3>三、用户行为规范</h3>
@@ -1050,7 +1044,7 @@
                     </ul>
 
                     <h3>五、知识产权声明</h3>
-                    <p>本平台为开源学习项目，前端代码可自由学习参考。平台名称"巴蜀中学"及相关校区名称的商标权、名称权归巴蜀中学所有。本平台不主张任何与巴蜀中学相关的知识产权权利。</p>
+                    <p>本平台为内部测试项目，前端代码可自由学习参考。平台名称及校区名称的商标权、名称权归相关权利人所有。</p>
 
                     <h3>六、数据说明</h3>
                     <ul>
@@ -1061,7 +1055,7 @@
                     </ul>
 
                     <div style="margin-top:16px;padding:12px;background:#F0F6FD;border-radius:8px;font-size:12px;color:#5A7A9A;text-align:center;">
-                        巴蜀中学教育集团 · 学生自建非官方社交原型 · 无授权 · 无隶属 · 无商业合作
+                        仅供内部测试 · 严禁外传
                     </div>
                 </div>
             </div>
@@ -1073,22 +1067,23 @@
 
         const app = createApp({
             setup() {
-                // ========== 路由状态 ==========
                 const currentPage = ref('home');
                 const searchKeyword = ref('');
 
-                // ========== 校区和年级数据 ==========
                 const campuses = [
-                    '巴蜀中学本部',
-                    '巴蜀常春藤学校',
-                    '巴蜀科学城中学',
-                    '巴蜀张家花园校区',
-                    '巴蜀鲁能校区',
-                    '巴蜀两江校区'
+                    '巴蜀中学校（黄花园校区）',
+                    '巴蜀中学校（张家花园校区）',
+                    '巴蜀中学桂花园学校',
+                    '渝中区巴蜀学校',
+                    '巴蜀科学城中学校',
+                    '璧山巴蜀中学校',
+                    '北新巴蜀中学校',
+                    '两江巴蜀初级中学校',
+                    '涪陵巴蜀初级中学校',
+                    '巴蜀渝东中学'
                 ];
                 const grades = ['初一', '初二', '初三', '高一', '高二', '高三'];
 
-                // ========== 登录/注册表单 ==========
                 const authTab = ref('login');
                 const loginForm = reactive({ name: '', password: '' });
                 const registerForm = reactive({
@@ -1098,28 +1093,25 @@
                     name: ''
                 });
 
-                // ========== 当前用户（模拟） ==========
                 const isLoggedIn = ref(false);
                 const currentUser = reactive({
                     name: '巴蜀学子',
-                    campus: '巴蜀中学本部',
+                    campus: '巴蜀中学校（黄花园校区）',
                     grade: '高一',
                     classNum: 1
                 });
 
-                // ========== 发帖表单 ==========
                 const newPost = reactive({
                     campus: '',
                     content: ''
                 });
                 const uploadFileList = ref([]);
 
-                // ========== 模拟帖子数据 ==========
                 const allPosts = reactive([
                     {
                         id: 1,
                         nickname: '小巴同学',
-                        campus: '巴蜀中学本部',
+                        campus: '巴蜀中学校（黄花园校区）',
                         grade: '高一',
                         time: '10分钟前',
                         content: '今天在图书馆自习，效率超高！推荐大家去三楼的窗边座位，阳光刚好，氛围绝佳～',
@@ -1135,11 +1127,11 @@
                     },
                     {
                         id: 2,
-                        nickname: '常春藤小藤',
-                        campus: '巴蜀常春藤学校',
+                        nickname: '藤园小同学',
+                        campus: '巴蜀中学桂花园学校',
                         grade: '高二',
                         time: '32分钟前',
-                        content: '常春藤的秋天太美了！银杏叶铺满小径，随手一拍都是壁纸级别的风景。🍂',
+                        content: '桂花园的秋天太美了！银杏叶铺满小径，随手一拍都是壁纸级别的风景。🍂',
                         hasImage: true,
                         imageClass: 'img-2',
                         imageLabel: '银杏小径',
@@ -1153,7 +1145,7 @@
                     {
                         id: 3,
                         nickname: '科学城探索者',
-                        campus: '巴蜀科学城中学',
+                        campus: '巴蜀科学城中学校',
                         grade: '初一',
                         time: '1小时前',
                         content: '科学城校区的实验室太棒了！今天做了化学实验，观察到了非常漂亮的颜色变化！🔬',
@@ -1170,7 +1162,7 @@
                     {
                         id: 4,
                         nickname: '张家花园的猫',
-                        campus: '巴蜀张家花园校区',
+                        campus: '巴蜀中学校（张家花园校区）',
                         grade: '初三',
                         time: '2小时前',
                         content: '校园里的橘猫又胖了，感觉它每天都有人投喂。好想把它抱回家！🐱',
@@ -1186,11 +1178,11 @@
                     },
                     {
                         id: 5,
-                        nickname: '鲁能小将',
-                        campus: '巴蜀鲁能校区',
+                        nickname: '璧山小将',
+                        campus: '璧山巴蜀中学校',
                         grade: '高一',
                         time: '3小时前',
-                        content: '鲁能校区的篮球场翻新了，地面弹性特别好！今天和同学们打了一场痛快的球赛。🏀',
+                        content: '璧山校区的篮球场翻新了，地面弹性特别好！今天和同学们打了一场痛快的球赛。🏀',
                         hasImage: true,
                         imageClass: 'img-5',
                         imageLabel: '篮球场',
@@ -1199,12 +1191,12 @@
                         isLiked: false,
                         isStarred: false,
                         avatarClass: 'avatar-purple',
-                        avatarText: '鲁'
+                        avatarText: '璧'
                     },
                     {
                         id: 6,
                         nickname: '两江追风少年',
-                        campus: '巴蜀两江校区',
+                        campus: '两江巴蜀初级中学校',
                         grade: '高二',
                         time: '4小时前',
                         content: '两江校区的夜景绝了！晚自习结束后看到江对面的灯光，学习压力瞬间消失。🌃',
@@ -1221,7 +1213,7 @@
                     {
                         id: 7,
                         nickname: '数学小王子',
-                        campus: '巴蜀中学本部',
+                        campus: '巴蜀中学校（黄花园校区）',
                         grade: '高三',
                         time: '5小时前',
                         content: '分享一个解解析几何的小技巧：先画图再列方程，很多复杂问题都会变得清晰。📐',
@@ -1237,11 +1229,11 @@
                     },
                     {
                         id: 8,
-                        nickname: '英语角达人',
-                        campus: '巴蜀常春藤学校',
+                        nickname: '渝中英语角',
+                        campus: '渝中区巴蜀学校',
                         grade: '初二',
                         time: '6小时前',
-                        content: '常春藤的英语角活动太棒了！和外教老师交流了好多有趣的话题，口语进步飞快！🗣️',
+                        content: '英语角活动太棒了！和外教老师交流了好多有趣的话题，口语进步飞快！🗣️',
                         hasImage: false,
                         imageClass: '',
                         imageLabel: '',
@@ -1254,11 +1246,11 @@
                     },
                     {
                         id: 9,
-                        nickname: '科学城小研究员',
-                        campus: '巴蜀科学城中学',
+                        nickname: '北新小研究员',
+                        campus: '北新巴蜀中学校',
                         grade: '高一',
                         time: '7小时前',
-                        content: '科学城校区的创客空间开放了！3D打印机、激光切割机都能用，太酷了！🖨️',
+                        content: '创客空间开放了！3D打印机、激光切割机都能用，太酷了！🖨️',
                         hasImage: true,
                         imageClass: 'img-3',
                         imageLabel: '创客空间',
@@ -1271,11 +1263,11 @@
                     },
                     {
                         id: 10,
-                        nickname: '张花园文艺青年',
-                        campus: '巴蜀张家花园校区',
+                        nickname: '涪陵文艺青年',
+                        campus: '涪陵巴蜀初级中学校',
                         grade: '高二',
                         time: '8小时前',
-                        content: '张家花园的紫藤花开了，整个长廊都是紫色的，像梦境一样。强烈推荐大家来看看！💜',
+                        content: '紫藤花开了，整个长廊都是紫色的，像梦境一样。强烈推荐大家来看看！💜',
                         hasImage: true,
                         imageClass: 'img-5',
                         imageLabel: '紫藤花廊',
@@ -1288,11 +1280,11 @@
                     },
                     {
                         id: 11,
-                        nickname: '鲁能摄影社',
-                        campus: '巴蜀鲁能校区',
+                        nickname: '渝东摄影社',
+                        campus: '巴蜀渝东中学',
                         grade: '初三',
                         time: '9小时前',
-                        content: '鲁能校区的操场日落太美了！分享一张手机随手拍的照片，没有修图哦。📸',
+                        content: '操场日落太美了！分享一张手机随手拍的照片，没有修图哦。📸',
                         hasImage: true,
                         imageClass: 'img-4',
                         imageLabel: '操场日落',
@@ -1306,10 +1298,10 @@
                     {
                         id: 12,
                         nickname: '两江音乐社',
-                        campus: '巴蜀两江校区',
+                        campus: '两江巴蜀初级中学校',
                         grade: '高一',
                         time: '10小时前',
-                        content: '两江校区的音乐教室新到了一架三角钢琴，音色太棒了！今天社团活动弹了一下午。🎹',
+                        content: '音乐教室新到了一架三角钢琴，音色太棒了！今天社团活动弹了一下午。🎹',
                         hasImage: true,
                         imageClass: 'img-6',
                         imageLabel: '三角钢琴',
@@ -1322,14 +1314,12 @@
                     }
                 ]);
 
-                // ========== 加载更多状态 ==========
                 const visibleCount = ref(6);
                 const isLoadingMore = ref(false);
                 const hasMorePosts = computed(() => visibleCount.value < allPosts.length);
                 const loadMoreRef = ref(null);
                 let observer = null;
 
-                // ========== 过滤后的帖子 ==========
                 const filteredPosts = computed(() => {
                     let posts = allPosts.slice(0, visibleCount.value);
                     if (searchKeyword.value.trim()) {
@@ -1344,12 +1334,11 @@
                     return posts;
                 });
 
-                // ========== 个人主页计算属性 ==========
                 const profileInitial = computed(() => {
                     return currentUser.name.charAt(0) || '巴';
                 });
                 const profileName = computed(() => currentUser.name || '巴蜀学子');
-                const profileCampus = computed(() => currentUser.campus || '巴蜀中学本部');
+                const profileCampus = computed(() => currentUser.campus || '巴蜀中学校（黄花园校区）');
 
                 const myPosts = computed(() => {
                     return allPosts.filter(p =>
@@ -1368,7 +1357,6 @@
 
                 const profileTab = ref('posts');
 
-                // ========== 导航方法 ==========
                 function navigate(page) {
                     currentPage.value = page;
                     window.location.hash = page === 'home' ? '/' : '/' + page;
@@ -1389,7 +1377,6 @@
                     currentPage.value = page;
                 }
 
-                // ========== 点赞/收藏 ==========
                 function toggleLike(post) {
                     post.isLiked = !post.isLiked;
                     if (post.isLiked) {
@@ -1415,7 +1402,6 @@
                     });
                 }
 
-                // ========== 登录/注册 ==========
                 function handleLogin() {
                     if (!loginForm.name.trim()) {
                         ElementPlus.ElMessage.warning({
@@ -1467,7 +1453,6 @@
                     setTimeout(() => navigate('home'), 800);
                 }
 
-                // ========== 发帖 ==========
                 function handleFileChange(file) {
                     if (file && file.raw) {
                         ElementPlus.ElMessage.info({
@@ -1524,7 +1509,6 @@
                     setTimeout(() => navigate('home'), 800);
                 }
 
-                // ========== 搜索 ==========
                 function filterPosts() {
                     if (searchKeyword.value.trim()) {
                         ElementPlus.ElMessage.info({
@@ -1534,7 +1518,6 @@
                     }
                 }
 
-                // ========== 无限滚动加载更多 ==========
                 function loadMore() {
                     if (isLoadingMore.value || !hasMorePosts.value) return;
                     isLoadingMore.value = true;
@@ -1556,7 +1539,6 @@
                     }
                 }
 
-                // ========== 生命周期 ==========
                 onMounted(() => {
                     handleHashChange();
                     window.addEventListener('hashchange', handleHashChange);
@@ -1577,7 +1559,6 @@
                 });
 
                 watch(searchKeyword, () => {
-                    // 搜索时重置可见数量
                     visibleCount.value = Math.min(allPosts.length, 6);
                 });
 
