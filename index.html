@@ -47,6 +47,7 @@
             min-height: 100vh;
         }
 
+        /* ===== 水印层（明显且密集） ===== */
         .watermark-layer {
             position: fixed;
             top: 0;
@@ -56,8 +57,8 @@
             pointer-events: none;
             z-index: 150;
             background-repeat: repeat;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='220' viewBox='0 0 300 220'%3E%3Ctext x='50%25' y='30%25' font-size='16' fill='rgba(0,0,0,0.07)' font-family='sans-serif' font-weight='bold' text-anchor='middle' transform='rotate(-30 150 110)'%3E严禁外传%3C/text%3E%3Ctext x='50%25' y='52%25' font-size='16' fill='rgba(0,0,0,0.07)' font-family='sans-serif' font-weight='bold' text-anchor='middle' transform='rotate(-30 150 110)'%3EIBS内部测试阶段%3C/text%3E%3Ctext x='50%25' y='74%25' font-size='16' fill='rgba(0,0,0,0.07)' font-family='sans-serif' font-weight='bold' text-anchor='middle' transform='rotate(-30 150 110)'%3E严禁外传%3C/text%3E%3C/svg%3E");
-            background-size: 300px 220px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='160' viewBox='0 0 180 160'%3E%3Ctext x='50%25' y='22%25' font-size='20' fill='rgba(0,0,0,0.16)' font-family='sans-serif' font-weight='bold' text-anchor='middle' transform='rotate(-28 90 80)'%3E严禁外传%3C/text%3E%3Ctext x='50%25' y='48%25' font-size='20' fill='rgba(0,0,0,0.16)' font-family='sans-serif' font-weight='bold' text-anchor='middle' transform='rotate(-28 90 80)'%3EIBS内部测试阶段%3C/text%3E%3Ctext x='50%25' y='74%25' font-size='20' fill='rgba(0,0,0,0.16)' font-family='sans-serif' font-weight='bold' text-anchor='middle' transform='rotate(-28 90 80)'%3E严禁外传%3C/text%3E%3C/svg%3E");
+            background-size: 180px 160px;
         }
 
         .desktop-sidebar {
@@ -1051,7 +1052,7 @@
                         <li>所有用户数据、帖子数据均为前端模拟数据。</li>
                         <li>不涉及后端服务、数据库或任何数据持久化操作。</li>
                         <li>刷新页面后所有操作状态（点赞、收藏、发帖等）将重置。</li>
-                        <li>本项目可部署在GitHub Pages等静态托管服务上，仅包含前端文件。</li>
+                        <li>本平台为纯前端静态页面，可部署于任意静态网页托管服务，不包含后端服务。</li>
                     </ul>
 
                     <div style="margin-top:16px;padding:12px;background:#F0F6FD;border-radius:8px;font-size:12px;color:#5A7A9A;text-align:center;">
